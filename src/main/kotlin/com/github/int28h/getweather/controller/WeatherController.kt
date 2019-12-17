@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.net.URL
 
 const val DAYS_COUNT = 3
-const val API_KEY = ""
+const val API_KEY = BuildConfig.API_KEY
 
 @RestController
 class WeatherController{
@@ -19,14 +19,13 @@ class WeatherController{
         val gson = Gson()
 
         try{
-            response = URL("https://api.openweathermap.org/data/2.5/forecast?q=$city,$country&cnt=$DAYS_COUNT&appid=$API_KEY").readText(
+            response = URL("https://api.openweathermap.org/data/2.5/forecast?q=$city,$country&cnt=$DAYS_COUNT&appid=$API_KEY&units=metric").readText(
                 Charsets.UTF_8
             )
-            //val forecast = gson.fromJson(response, ForecastResponse::class.java)
-            //val dailyForecast = forecast.list[0].temp["day"]
+            val forecast = gson.fromJson(response, ForecastResponse::class.java)
+            val dailyForecast = forecast.list[0].main["temp"]
 
-            //return dailyForecast.toString()
-            return response
+            return dailyForecast.toString()
         } catch (e: Exception){
             return e.message.toString()
         }

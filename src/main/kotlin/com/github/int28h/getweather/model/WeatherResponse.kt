@@ -5,5 +5,5 @@ data class ForecastResponse(
 )
 
 data class DailyForecastResponse(
-    val temp: HashMap<String, Double>
+    val main: HashMap<String, Double>
 )
