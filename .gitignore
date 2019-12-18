@@ -10,7 +10,6 @@ out/
 build/
 
 local.properties
-gradle.properties
 
 *.log
 
@@ -19,3 +18,5 @@ captures/
 
 *.iml
 .idea
+
+src/main/resources/application.properties

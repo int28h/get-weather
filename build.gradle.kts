@@ -5,12 +5,12 @@ plugins {
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
     kotlin("jvm") version "1.3.61"
     kotlin("plugin.spring") version "1.3.61"
+    kotlin("kapt") version "1.3.61"
 }
 
 group = "com.github.int28h"
 version = "1.0-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
-buildConfigField("String", "API_KEY", API_KEY)
 
 repositories {
     mavenCentral()
@@ -22,6 +22,9 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
     implementation("com.google.code.gson:gson")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
