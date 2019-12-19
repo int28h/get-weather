@@ -23,9 +23,12 @@ class WeatherController(private val config: AppConfig) {
                 Charsets.UTF_8
             )
             val forecast = gson.fromJson(response, ForecastResponse::class.java)
-            val dailyForecast = forecast.list[0].main["temp"]
 
-            return dailyForecast.toString()
+            val dailyForecast = forecast.list[0].main["temp"]
+            val leastTemp = forecast.list.mapNotNull { it.main["temp"] }.min()
+
+            return "$dailyForecast $leastTemp"
+            //return forecast.toString()
         } catch (e: Exception){
             return e.message.toString()
         }
