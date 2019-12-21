@@ -5,5 +5,10 @@ data class ForecastResponse(
 )
 
 data class DailyForecastResponse(
-    val main: HashMap<String, Double>
+    val main: HashMap<String, Float>
+)
+
+data class GetWeatherResponse(
+    val todayTemp: Float?,
+    val minTemp: Float?
 )

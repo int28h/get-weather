@@ -1,7 +1,8 @@
 package com.github.int28h.getweather.controller
 
-import com.github.int28h.getweather.AppConfig
+import com.github.int28h.getweather.config.AppConfig
 import com.github.int28h.getweather.model.ForecastResponse
+import com.github.int28h.getweather.model.GetWeatherResponse
 import com.google.gson.Gson
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -24,11 +25,10 @@ class WeatherController(private val config: AppConfig) {
             )
             val forecast = gson.fromJson(response, ForecastResponse::class.java)
 
-            val dailyForecast = forecast.list[0].main["temp"]
-            val leastTemp = forecast.list.mapNotNull { it.main["temp"] }.min()
+            val todayTemp: Float? = forecast.list[0].main["temp"]
+            val minTemp: Float? = forecast.list.mapNotNull { it.main["temp"] }.min()
 
-            return "$dailyForecast $leastTemp"
-            //return forecast.toString()
+            return gson.toJson(GetWeatherResponse(todayTemp, minTemp))
         } catch (e: Exception){
             return e.message.toString()
         }
