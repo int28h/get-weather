@@ -5,7 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
     kotlin("jvm") version "1.3.61"
     kotlin("plugin.spring") version "1.3.61"
-    kotlin("kapt") version "1.3.61"
+    kotlin("kapt") version "1.3.60"
 }
 
 group = "com.github.int28h"
@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
     implementation("com.google.code.gson:gson")
