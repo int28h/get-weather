@@ -2,4 +2,12 @@
   
 Для получения температуры приложение должно использовать API OpenWeatherMap.  
   
-Для сборки приложения использовать Maven или Gradle.
+Для сборки приложения использовать Maven или Gradle.  
+  
+===  
+  
+API key — необходимо разместить в файле `src/main/resources/application.properties` в формате  
+`apiKey=$API_KEY`  
+  
+Пример вызова метода: `http://localhost:8080/api/getWeather?city=Moscow&country=RU`  
+  

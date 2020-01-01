@@ -22,10 +22,10 @@ class WeatherController(private val config: AppConfig) {
      */
     private fun checkArguments(city: String, country: String) {
         val errors = org.springframework.validation.BindException(this, "")
-        if (city == "") {
+        if (city.isEmpty()) {
             errors.addError(FieldError("", "city", "Данное поле не может быть пустым"))
         }
-        if (country == "") {
+        if (country.isEmpty()) {
             errors.addError(FieldError("", "country", "Данное поле не может быть пустым"))
         }
 
@@ -35,26 +35,31 @@ class WeatherController(private val config: AppConfig) {
     /**
      * Вызов API OpenWeatherMap
      */
-    private fun apiCall(city: String, country: String): String? {
+    private fun apiCall(city: String, country: String): String {
         try {
             return URL("https://api.openweathermap.org/data/2.5/forecast?q=$city,$country&cnt=$DAYS_COUNT&appid=${config.apiKey}&units=metric")
                 .readText(Charsets.UTF_8)
         } catch (e: Exception) {
-            return null
+            throw IllegalStateException("Ошибка взаимодействия с API OpenWeatherMap.")
         }
     }
 
-    @GetMapping("/api/getWeather")
-    fun getWeather(@RequestParam(value = "city") city: String, @RequestParam(value = "country") country: String): Any {
-        checkArguments(city, country)
-
-        val response = apiCall(city, country)
-
+    /**
+     * Обработка ответа от API OpenWeatherMap
+     */
+    private fun extractResponse(response: String): String {
         val forecast = gson.fromJson(response, ForecastResponse::class.java)
 
         val todayTemp: Float? = forecast.list[0].main["temp"]
         val minTemp: Float? = forecast.list.mapNotNull { it.main["temp"] }.min()
 
         return gson.toJson(GetWeatherResponse(todayTemp, minTemp))
+    }
+
+    @GetMapping("/api/getWeather")
+    fun getWeather(@RequestParam(value = "city") city: String, @RequestParam(value = "country") country: String): String? {
+        checkArguments(city, country)
+
+        return apiCall(city, country).takeIf { it.isNotEmpty() }?.let(::extractResponse) ?: "{}"
     }
 }
