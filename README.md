@@ -4,7 +4,7 @@
   
 Для сборки приложения использовать Maven или Gradle.  
   
-===  
+***   
   
 API key — необходимо разместить в файле `src/main/resources/application.properties` в формате  
 `apiKey=$API_KEY`  
